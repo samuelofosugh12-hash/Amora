@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amora Beauty studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: #333;
+}
+
+/* Transparent Header */
+header {
+    width: 100%;
+    padding: 15px 30px;
+    background: transparent;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo img {
+    width: 120px;
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Center nav links */
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    margin: 0 auto;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #dfd10c;
+}
+
+.book-now {
+    padding: 8px 15px;
+    background: #ffd700;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.book-now:hover {
+    background: #ffd700;
+}
+
+.hero {
+    background: url('p2.png') center/cover no-repeat;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 80px;
+}
+
+.hero-text {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 30px;
+    border-radius: 8px;
+}
+
+.small-title {
+    font-size: 14px;
+    letter-spacing: 2px;
+    font-weight: bold;
+    color: #666;
+}
+
+.hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    margin: 15px 0;
+}
+
+.cta-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #f0c60c;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    margin-top: 10px;
+    transition: background 0.3s ease;
+}
+
+.cta-btn:hover {
+    background: #b84e89;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 200;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    max-height: 90vh;
+    overflow: auto;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#bookingForm input, #bookingForm textarea, #bookingForm button {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#bookingForm button {
+    background: #ddda0a;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#bookingForm button:hover {
+    background: #b84e89;
+}
+
+#bookingForm .wa-note {
+    font-size: 13px;
+    color: #555;
+    margin: 4px 0;
+}
+
+/* Admin bookings list */
+.bk-item {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+.bk-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.bk-actions button {
+    flex: 1;
+    padding: 9px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    background: #c94f7c;
+}
+
+/* Popup */
+.popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 18px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    animation: fadeInOut 3s ease;
+    z-index: 300;
+}
+
+.popup.success {
+    background-color: #28a745;
+}
+
+.popup.error {
+    background-color: #dc3545;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(20px); }
+    10% { opacity: 1; transform: translateY(0); }
+    90% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(20px); }
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.page-section {
+    padding: 100px 30px;
+    background: #f9f9f9;
+    text-align: center;
+}
+
+.page-section:nth-child(even) {
+    background: #fff;
+}
+
+.page-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+/* Blur effect when scrolling */
+.blurred-nav {
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.7);
+    transition: backdrop-filter 0.3s ease, background 0.3s ease;
+}
+
+.services-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 40px;
+  background: #f9f9f9;
+}
+
+.service-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 300px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+}
+
+.service-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.service-card h3 {
+  font-size: 1.2rem;
+  margin: 15px 0 10px;
+}
+
+.service-card p {
+  padding: 0 15px 20px;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.gallery-section {
+  padding: 60px 20px;
+  background-color: var(--background-color);
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 40px;
+  color: var(--primary-color);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.gallery-item {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease-out;
+}
+
+.gallery-item img {
+  width: 100%;
+  display: block;
+  border-radius: 10px;
+  transition: transform 0.4s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.gallery-item.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Lightbox Styles */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  padding-top: 80px;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.9);
+  overflow: auto;
+}
+
+.lightbox-img {
+  display: block;
+  margin: auto;
+  max-width: 80%;
+  max-height: 80%;
+}
+
+.caption {
+  text-align: center;
+  color: #ccc;
+  padding: 10px;
+}
+
+.lightbox .close {
+  position: absolute;
+  top: 30px; right: 50px;
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
+.contact-info p {
+  margin: 10px 0;
+  font-size: 1rem;
+}
+
+.contact-info a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.contact-info a:hover {
+  color: #003370;
+}
+
+.contact-section {
+  background-color: var(--box-bg);
+  padding: 60px 20px 80px;
+  text-align: center;
+  color: var(--text-color);
+  border-top: 3px solid var(--primary-color);
+}
+
+.contact-section h2 {
+  font-size: 2.2rem;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+.social-links {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+}
+
+.social-links a img {
+  width: 32px;
+  height: 32px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: grayscale(100%);
+}
+
+.social-links a img:hover {
+  transform: scale(1.2);
+  filter: grayscale(0%) brightness(1.2);
+}
+
+/* Policies Section */
+.policies-section {
+  background: linear-gradient(135deg, #fff5f8, #ffe6ee);
+  padding: 60px 20px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.policies-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+  background: #ffffffc9;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.policies-container.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.policies-container h2 {
+  font-size: 2.2rem;
+  color: #c94f7c;
+  margin-bottom: 15px;
+}
+
+.policies-container p {
+  color: #444;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Location section styles */
+.location-section {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 25px;
+  background: linear-gradient(135deg, #fff5f8, #ffeaf1);
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  animation: fadeUp 0.8s ease-in-out;
+}
+
+.location-section p {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.location-section .map-link {
+  color: #d86a91;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.location-section .map-link:hover {
+  text-decoration: underline;
+  color: #b54b73;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.about-img {
+    width: 180px;
+    height: auto;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 10px 15px;
+        height: auto;
+    }
+
+    .logo img {
+        width: 90px;
+        height: auto;
+    }
+
+    .navbar {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .nav-links {
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav-links a {
+        font-size: 13px;
+    }
+
+    .hero {
+        min-height: 650px;
+        padding: 20px 15px;
+    }
+
+    .hero-text {
+        width: 100%;
+        padding: 20px 10px;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+        line-height: 1.1;
+    }
+
+    .book-now {
+        font-size: 15px;
+        padding: 12px 20px;
+    }
+
+    html,
+    body {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .services-section,
+    .gallery-section,
+    .contact-section,
+    .location-section,
+    .policies-container {
+        width: 100%;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="amara11.png" alt="Amora Beauty Studio Logo">
+            </div>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#policies">Policies</a></li>
+            </ul>
+            <a href="#" class="book-now" id="openBooking">Book Now</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-text">
+            <p class="small-title">LUXE-TIPS CLUB</p>
+            <h1>Enhancing Beauty With Love.</h1>
+            <a href="#" class="cta-btn" id="openBooking2">Book an Appointment</a>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services-section" id="services">
+        <div class="service-card">
+            <img src="Basic-Manicure.jpg.webp" alt="Basic Nail Care">
+            <h3>Basic Nail Care</h3>
+            <p>Manicures, pedicures, and cuticle care for neat, healthy nails.</p>
+        </div>
+
+        <div class="service-card">
+            <img src="rama-nail-artist-and-nail-extension-studio-delhi-nail-spas-d05cxmfhpd.avif" alt="Nail Extensions">
+            <h3>Nail Extensions</h3>
+            <p>Acrylic, gel, or dip powder for longer, stylish nails.</p>
+        </div>
+
+        <div class="service-card">
+            <img src="banner.png" alt="Special Occasion Nails">
+            <h3>Special Occasion Nails</h3>
+            <p>Bridal, party, and seasonal designs.</p>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" class="gallery-section">
+        <h2 class="section-title">Our Nail Art Gallery</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="122.jpg" alt="Elegant French Tips">
+                <div class="overlay"><p>Elegant French Tips</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="144.jpg" alt="Floral Nail Design">
+                <div class="overlay"><p>Floral Nail Design</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="133.jpg" alt="Gold Glitter Nails">
+                <div class="overlay"><p>Gold Glitter Nails</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox">
+        <span class="close" id="closeLightbox">&times;</span>
+        <img class="lightbox-img" id="lightbox-img" alt="">
+        <div class="caption" id="caption"></div>
+    </div>
+
+    <!-- Contact -->
+    <section id="contact" class="contact-section">
+        <h2>Contact Us</h2>
+        <p>Reach out to us for inquiries or more information.</p>
+
+        <div class="contact-info">
+            <p><strong>Address:</strong> Nsawam, Ghana</p>
+            <p><strong>Phone:</strong> <a href="tel:+233203261314">0203261314</a></p>
+            <p><strong>Email:</strong> <a href="mailto:amorabeautystudio@gmail.com">amorabeautystudio@gmail.com</a></p>
+        </div>
+
+        <div class="social-links">
+            <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook"><img src="jill3.svg" alt="Facebook"></a>
+            <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><img src="jill2.svg" alt="Instagram"></a>
+            <a href="https://x.com" target="_blank" rel="noopener" aria-label="Twitter"><img src="jill4.svg" alt="Twitter"></a>
+            <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><img src="jill.svg" alt="YouTube"></a>
+            <a href="https://www.tiktok.com/@_adhjoahadhepah_?_r=1&_t=ZS-985rwLU0Skq" target="_blank" rel="noopener" aria-label="Tiktok"><img src="tiktok.svg" alt="Tiktok"></a>
+        </div>
+    </section>
+
+    <!-- Policies -->
+    <section id="policies" class="page-section policies-section">
+        <div class="policies-container">
+            <h2>Our Policies</h2>
+            <p>
+                We kindly ask all clients to respect our booking and cancellation policies.
+                Please arrive on time for your appointment and provide at least 24 hours’ notice
+                for cancellations or rescheduling.
+            </p>
+        </div>
+    </section>
+
+    <!-- Location / footer -->
+    <section id="location" class="location-section">
+        <p>&copy; 2026 Amora Beauty studio. All rights reserved.</p>
+        <p>
+            📍 <a class="map-link" href="https://maps.app.goo.gl/tNgsBVd5tdaTYW3N8" target="_blank" rel="noopener">Visit Us in Nsawam, GH</a>
+            <a href="aboutus.jpg" target="_blank" rel="noopener"><img src="aboutpic.png" alt="About Us" class="about-img"></a>
+        </p>
+    </section>
+
+    <!-- Booking Form Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeBooking">&times;</span>
+            <h2>Book Your Appointment</h2>
+            <form id="bookingForm">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <input type="tel" name="phone" placeholder="Your Phone Number" required>
+                <input type="datetime-local" name="date" required>
+                <textarea name="message" placeholder="Additional Notes"></textarea>
+                <p class="wa-note">After you submit, WhatsApp will open with your booking ready to send to the studio.</p>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bookings viewer (open this page with #bookings at the end of the address) -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeAdmin">&times;</span>
+            <h2>Saved bookings</h2>
+            <div id="bkList"></div>
+            <div class="bk-actions">
+                <button type="button" id="bkExport">Export CSV</button>
+                <button type="button" id="bkClear">Clear all</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+(function () {
+
+/* =====================================================
+   LOCAL STORAGE (bookings are saved in this browser)
+===================================================== */
+var KEY = 'amora_bookings';
+var STUDIO_WHATSAPP = '233208966012';
+
+/* Paste your Google Apps Script web-app URL here (see code.gs).
+   Leave it empty to skip direct calendar sync. */
+var CALENDAR_URL = '';
+var APPOINTMENT_MINUTES = 60;
+
+/* "Add to Google Calendar" link for one booking (opens pre-filled in whoever taps it) */
+function calendarLink(b) {
+  var s = new Date(b.date);
+  if (isNaN(s)) return '';
+  var e = new Date(s.getTime() + APPOINTMENT_MINUTES * 60000);
+  function fmt(d) {
+    function p(n) { return String(n).padStart(2, '0'); }
+    return d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + 'T' + p(d.getHours()) + p(d.getMinutes()) + '00';
+  }
+  return 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+    '&text=' + encodeURIComponent('Booking: ' + b.name) +
+    '&dates=' + fmt(s) + '/' + fmt(e) +
+    '&details=' + encodeURIComponent('Phone: ' + b.phone + '\nEmail: ' + b.email + (b.message ? '\nNotes: ' + b.message : '')) +
+    '&location=' + encodeURIComponent('Amora Beauty Studio, Nsawam, Ghana');
+}
+
+function loadBookings() {
+  try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) { return []; }
+}
+function saveBookings(list) {
+  try { localStorage.setItem(KEY, JSON.stringify(list)); return true; } catch (e) { return false; }
+}
+function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; }
+
+/* =====================================================
+   POPUPS
+===================================================== */
+function popup(type, message) {
+  var p = document.createElement('div');
+  p.className = 'popup ' + type;
+  p.textContent = message;
+  document.body.appendChild(p);
+  setTimeout(function () { p.remove(); }, 3000);
+}
+
+/* =====================================================
+   BOOKING MODAL
+===================================================== */
+var modal = document.getElementById('bookingModal');
+
+['openBooking', 'openBooking2'].forEach(function (id) {
+  document.getElementById(id).addEventListener('click', function (e) {
+    e.preventDefault();
+    modal.style.display = 'flex';
+  });
+});
+
+document.getElementById('closeBooking').addEventListener('click', function () { modal.style.display = 'none'; });
+
+document.getElementById('bookingForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var f = e.target;
+  var data = {
+    id: 'b' + Date.now(),
+    name: f.name.value.trim(),
+    email: f.email.value.trim(),
+    phone: f.phone.value.trim(),
+    date: f.date.value,
+    message: f.message.value.trim(),
+    createdAt: new Date().toISOString()
+  };
+
+  var list = loadBookings();
+  list.push(data);
+
+  if (!saveBookings(list)) {
+    popup('error', 'Sorry, something went wrong. Please try again.');
+    return;
+  }
+
+  {
+    var text = 'Hello Amora Beauty Studio, I would like to book an appointment.\n' +
+      'Name: ' + data.name + '\nPhone: ' + data.phone + '\nEmail: ' + data.email +
+      '\nDate/time: ' + data.date.replace('T', ' ') +
+      (data.message ? '\nNotes: ' + data.message : '') +
+      '\n\nAdd to calendar: ' + calendarLink(data);
+    window.open('https://wa.me/' + STUDIO_WHATSAPP + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
+  }
+
+  /* Send straight to the studio's Google Calendar (via Apps Script) */
+  if (CALENDAR_URL) {
+    fetch(CALENDAR_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(data)
+    }).catch(function () {
+      popup('error', 'Saved, but the calendar could not be reached. We will still see your request.');
+    });
+  }
+
+  f.reset();
+  modal.style.display = 'none';
+  popup('success', 'Booking saved! Tap Send in WhatsApp to confirm it with us.');
+});
+
+/* =====================================================
+   BOOKINGS VIEWER  (add #bookings to the page address)
+===================================================== */
+var adminModal = document.getElementById('adminModal');
+
+function renderBookings() {
+  var list = loadBookings().slice().reverse();
+  document.getElementById('bkList').innerHTML = list.length
+    ? list.map(function (b) {
+        return '<div class="bk-item"><strong>' + esc(b.name) + '</strong> · ' + esc(b.phone) +
+          '<br>' + esc(b.email) + '<br>' + esc((b.date || '').replace('T', ' ')) +
+          (b.message ? '<br><em>' + esc(b.message) + '</em>' : '') +
+          '<br><a href="' + esc(calendarLink(b)) + '" target="_blank" rel="noopener">Add to Google Calendar</a></div>';
+      }).join('')
+    : '<p>No bookings saved yet.</p>';
+}
+
+function checkAdminHash() {
+  if (location.hash === '#bookings') {
+    renderBookings();
+    adminModal.style.display = 'flex';
+  }
+}
+window.addEventListener('hashchange', checkAdminHash);
+checkAdminHash();
+
+document.getElementById('closeAdmin').addEventListener('click', function () {
+  adminModal.style.display = 'none';
+  if (location.hash === '#bookings') history.replaceState(null, '', location.pathname + location.search);
+});
+
+document.getElementById('bkExport').addEventListener('click', function () {
+  var rows = [['Name', 'Phone', 'Email', 'Date', 'Notes', 'Saved at']].concat(
+    loadBookings().map(function (b) { return [b.name, b.phone, b.email, b.date, b.message, b.createdAt]; })
+  );
+  var csv = rows.map(function (r) {
+    return r.map(function (c) { return '"' + String(c == null ? '' : c).replace(/"/g, '""') + '"'; }).join(',');
+  }).join('\n');
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+  a.download = 'amora-bookings.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+document.getElementById('bkClear').addEventListener('click', function () {
+  if (confirm('Delete all saved bookings from this browser?')) {
+    saveBookings([]);
+    renderBookings();
+  }
+});
+
+/* =====================================================
+   CLOSE MODALS: backdrop click, Escape, nav links
+===================================================== */
+window.addEventListener('click', function (e) {
+  if (e.target === modal) modal.style.display = 'none';
+  if (e.target === adminModal) adminModal.style.display = 'none';
+  if (e.target === lightbox) lightbox.style.display = 'none';
+});
+
+window.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') {
+    modal.style.display = 'none';
+    adminModal.style.display = 'none';
+    lightbox.style.display = 'none';
+  }
+});
+
+document.querySelectorAll('.nav-links a').forEach(function (link) {
+  link.addEventListener('click', function () { modal.style.display = 'none'; });
+});
+
+/* =====================================================
+   NAVBAR BLUR ON SCROLL
+===================================================== */
+var navbar = document.querySelector('header');
+window.addEventListener('scroll', function () {
+  navbar.classList.toggle('blurred-nav', window.scrollY > 50);
+});
+
+/* =====================================================
+   GALLERY: reveal on scroll + lightbox
+===================================================== */
+var galleryItems = document.querySelectorAll('.gallery-item');
+function revealOnScroll() {
+  var trigger = window.innerHeight * 0.9;
+  galleryItems.forEach(function (item) {
+    if (item.getBoundingClientRect().top < trigger) item.classList.add('show');
+  });
+}
+window.addEventListener('scroll', revealOnScroll);
+revealOnScroll();
+
+var lightbox = document.getElementById('lightbox');
+var lightboxImg = document.getElementById('lightbox-img');
+var captionText = document.getElementById('caption');
+
+galleryItems.forEach(function (item) {
+  item.addEventListener('click', function () {
+    var img = item.querySelector('img');
+    lightbox.style.display = 'block';
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
+    captionText.textContent = img.alt;
+  });
+});
+
+document.getElementById('closeLightbox').addEventListener('click', function () { lightbox.style.display = 'none'; });
+
+/* =====================================================
+   POLICIES: reveal on scroll
+===================================================== */
+var policiesBox = document.querySelector('.policies-container');
+function revealPolicies() {
+  if (policiesBox.getBoundingClientRect().top < window.innerHeight * 0.9) policiesBox.classList.add('show');
+}
+window.addEventListener('scroll', revealPolicies);
+revealPolicies();
+
+})();
+</script>
+
+</body>
+</html>
