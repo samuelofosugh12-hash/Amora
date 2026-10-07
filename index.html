@@ -348,6 +348,110 @@ html {
   transform: translateY(0);
 }
 
+/* Slideshow */
+.slideshow-section {
+  padding: 60px 20px;
+  background: #fff;
+  text-align: center;
+}
+
+.slideshow {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  background: #000;
+}
+
+.slides {
+  display: flex;
+  transition: transform 0.6s ease;
+}
+
+.slide {
+  position: relative;
+  min-width: 100%;
+}
+
+/* Bigger slideshow */
+.slideshow-section { scroll-margin-top: 100px; }
+
+.slideshow {
+  max-width: 1100px;
+  background: #d4d2d2;
+}
+
+.slide img {
+  height: min(80vh, 700px);
+  object-fit: contain;
+  background: #f8f7f7;
+}
+
+@media (max-width: 600px) {
+  .slide img { height: 60vh; max-height: 460px; }
+}
+
+.slide-caption {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 14px 16px 36px;
+  background: linear-gradient(transparent, rgba(255, 254, 254, 0.65));
+  color: #fff;
+  font-size: 1.05rem;
+}
+
+.slide-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+  color: #333;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.slide-btn:hover { background: #fff; }
+.slide-btn.prev { left: 12px; }
+.slide-btn.next { right: 12px; }
+
+.slide-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  z-index: 2;
+}
+
+.slide-dots button {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+
+.slide-dots button.active { background: #ffd700; }
+
+@media (max-width: 600px) {
+  .slide img { height: 300px; }
+  .slide-btn { width: 36px; height: 36px; font-size: 18px; }
+}
+
 /* Lightbox Styles */
 .lightbox {
   display: none;
@@ -637,9 +741,56 @@ html {
                 <div class="overlay"><p>Floral Nail Design</p></div>
             </div>
             <div class="gallery-item">
-                <img src="133.jpg" alt="Gold Glitter Nails">
+                <img src="amr5.jpg" alt="Gold Glitter Nails">
                 <div class="overlay"><p>Gold Glitter Nails</p></div>
             </div>
+        </div>
+    </section>
+
+    <!-- Slideshow -->
+    <section id="slideshow" class="slideshow-section">
+        <h2 class="section-title">Our Work</h2>
+        <div class="slideshow" id="slideshow-box" aria-roledescription="carousel" aria-label="Our work">
+            <div class="slides" id="slides">
+                <!-- To add a picture, copy one whole <div class="slide"> block and change the file name and caption -->
+                <div class="slide">
+                    <img src="122.jpg" alt="Elegant French Tips">
+                    <div class="slide-caption">Elegant French Tips</div>
+                </div>
+                <div class="slide">
+                    <img src="144.jpg" alt="Floral Nail Design">
+                    <div class="slide-caption">Floral Nail Design</div>
+                </div>
+                
+
+                <div class="slide">
+                    <img src="motion_photo_5560509343877187506.jpg" alt="Gold Glitter Nails">
+                    <div class="slide-caption">Gold Glitter Nails</div>
+                </div>
+
+                <div class="slide">
+                    <img src="amr1.jpg" alt="Gold Glitter Nails">
+                    <div class="slide-caption">Gold Glitter Nails</div>
+                </div>
+
+                <div class="slide">
+                    <img src="amr2.jpg" alt="Gold Glitter Nails">
+                    <div class="slide-caption">Gold Glitter Nails</div>
+                </div>
+
+                <div class="slide">
+                    <img src="amr3.jpg" alt="Gold Glitter Nails">
+                    <div class="slide-caption">Gold Glitter Nails</div>
+                </div>
+
+                <div class="slide">
+                    <img src="amr4.jpg" alt="Gold Glitter Nails">
+                    <div class="slide-caption">Gold Glitter Nails</div>
+                </div>
+            </div>
+            <button type="button" class="slide-btn prev" id="slidePrev" aria-label="Previous picture">&#10094;</button>
+            <button type="button" class="slide-btn next" id="slideNext" aria-label="Next picture">&#10095;</button>
+            <div class="slide-dots" id="slideDots"></div>
         </div>
     </section>
 
@@ -687,7 +838,7 @@ html {
         <p>&copy; 2026 Amora Beauty studio. All rights reserved.</p>
         <p>
             📍 <a class="map-link" href="https://maps.app.goo.gl/tNgsBVd5tdaTYW3N8" target="_blank" rel="noopener">Visit Us in Nsawam, GH</a>
-            <a href="aboutus.jpg" target="_blank" rel="noopener"><img src="aboutpic.png" alt="About Us" class="about-img"></a>
+            
         </p>
     </section>
 
@@ -728,7 +879,7 @@ html {
    LOCAL STORAGE (bookings are saved in this browser)
 ===================================================== */
 var KEY = 'amora_bookings';
-var STUDIO_WHATSAPP = '0208765060';
+var STUDIO_WHATSAPP = '233208765060';   /* 0208765060 in international format */
 
 /* Paste your Google Apps Script web-app URL here (see code.gs).
    Leave it empty to skip direct calendar sync. */
@@ -940,6 +1091,57 @@ galleryItems.forEach(function (item) {
 });
 
 document.getElementById('closeLightbox').addEventListener('click', function () { lightbox.style.display = 'none'; });
+
+/* =====================================================
+   SLIDESHOW: auto-play, arrows, dots, swipe
+===================================================== */
+(function () {
+  var box = document.getElementById('slideshow-box');
+  var track = document.getElementById('slides');
+  var slides = track.children;
+  var dotsBox = document.getElementById('slideDots');
+  var current = 0, timer = null, startX = null;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  for (var i = 0; i < slides.length; i++) {
+    (function (n) {
+      var d = document.createElement('button');
+      d.type = 'button';
+      d.setAttribute('aria-label', 'Go to picture ' + (n + 1));
+      d.addEventListener('click', function () { go(n); restart(); });
+      dotsBox.appendChild(d);
+    })(i);
+  }
+
+  function go(n) {
+    current = (n + slides.length) % slides.length;
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    Array.prototype.forEach.call(dotsBox.children, function (d, k) {
+      d.classList.toggle('active', k === current);
+    });
+  }
+  function start() { if (!reduce && slides.length > 1) timer = setInterval(function () { go(current + 1); }, 4000); }
+  function stop() { clearInterval(timer); timer = null; }
+  function restart() { stop(); start(); }
+
+  document.getElementById('slidePrev').addEventListener('click', function () { go(current - 1); restart(); });
+  document.getElementById('slideNext').addEventListener('click', function () { go(current + 1); restart(); });
+
+  box.addEventListener('mouseenter', stop);
+  box.addEventListener('mouseleave', start);
+  box.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; stop(); }, { passive: true });
+  box.addEventListener('touchend', function (e) {
+    if (startX !== null) {
+      var dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) go(current + (dx < 0 ? 1 : -1));
+    }
+    startX = null;
+    start();
+  });
+
+  go(0);
+  start();
+})();
 
 /* =====================================================
    POLICIES: reveal on scroll
