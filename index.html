@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#ffffff">
     <title>Amora Beauty studio</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
     <style>
@@ -12,15 +13,29 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
 body {
     font-family: 'Open Sans', sans-serif;
     color: #333;
+    overflow-x: hidden;
+}
+
+img, video {
+    max-width: 100%;
+}
+
+section[id] {
+    scroll-margin-top: 100px;
 }
 
 /* Transparent Header */
 header {
     width: 100%;
-    padding: 15px 30px;
+    padding: max(12px, env(safe-area-inset-top)) max(30px, env(safe-area-inset-right)) 12px max(30px, env(safe-area-inset-left));
     background: transparent;
     position: fixed;
     top: 0;
@@ -32,10 +47,11 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
 }
 
 .logo img {
-    width: 120px;
+    width: clamp(64px, 9vw, 120px);
     height: auto;
     border-radius: 50%;
     object-fit: cover;
@@ -73,9 +89,19 @@ header {
     background: #ffd700;
 }
 
+/* Blur effect when scrolling */
+.blurred-nav {
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.7);
+    transition: backdrop-filter 0.3s ease, background 0.3s ease;
+}
+
+/* Hero */
 .hero {
     background: url('p2.png') center/cover no-repeat;
-    height: 100vh;
+    min-height: 100vh;
+    min-height: 100svh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -87,6 +113,7 @@ header {
     background: rgba(255, 255, 255, 0.8);
     padding: 30px;
     border-radius: 8px;
+    max-width: min(720px, 92%);
 }
 
 .small-title {
@@ -98,7 +125,8 @@ header {
 
 .hero h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 40px;
+    font-size: clamp(28px, 5vw, 56px);
+    line-height: 1.15;
     margin: 15px 0;
 }
 
@@ -136,10 +164,10 @@ header {
     background: white;
     padding: 20px;
     border-radius: 8px;
-    width: 90%;
-    max-width: 400px;
+    width: min(92vw, 420px);
     position: relative;
     max-height: 90vh;
+    max-height: 90dvh;
     overflow: auto;
 }
 
@@ -157,6 +185,7 @@ header {
     margin: 8px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 16px; /* stops iPhones zooming into the form */
 }
 
 #bookingForm button {
@@ -227,10 +256,6 @@ header {
     100% { opacity: 0; transform: translateY(20px); }
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
 .page-section {
     padding: 100px 30px;
     background: #f9f9f9;
@@ -247,19 +272,13 @@ html {
     margin-bottom: 10px;
 }
 
-/* Blur effect when scrolling */
-.blurred-nav {
-    backdrop-filter: blur(8px);
-    background: rgba(255, 255, 255, 0.7);
-    transition: backdrop-filter 0.3s ease, background 0.3s ease;
-}
-
+/* Services */
 .services-section {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
-  padding: 40px;
+  padding: clamp(24px, 5vw, 40px);
   background: #f9f9f9;
 }
 
@@ -268,7 +287,9 @@ html {
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  width: 300px;
+  width: auto;
+  flex: 1 1 260px;
+  max-width: 340px;
   text-align: center;
   transition: transform 0.3s ease;
 }
@@ -294,22 +315,25 @@ html {
   color: #555;
 }
 
+/* Gallery */
 .gallery-section {
-  padding: 60px 20px;
+  padding: clamp(40px, 6vw, 60px) clamp(14px, 4vw, 20px);
   background-color: var(--background-color);
   text-align: center;
 }
 
 .section-title {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 3.5vw, 2.4rem);
   margin-bottom: 40px;
   color: var(--primary-color);
 }
 
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
   gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .gallery-item {
@@ -350,19 +374,20 @@ html {
 
 /* Slideshow */
 .slideshow-section {
-  padding: 60px 20px;
+  padding: clamp(40px, 6vw, 60px) clamp(10px, 4vw, 20px);
   background: #fff;
   text-align: center;
 }
 
 .slideshow {
   position: relative;
-  max-width: 900px;
+  width: 100%;
+  max-width: 1100px;
   margin: 0 auto;
   overflow: hidden;
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-  background: #000;
+  background: #d4d2d2;
 }
 
 .slides {
@@ -372,25 +397,17 @@ html {
 
 .slide {
   position: relative;
+  flex: 0 0 100%;
   min-width: 100%;
 }
 
-/* Bigger slideshow */
-.slideshow-section { scroll-margin-top: 100px; }
-
-.slideshow {
-  max-width: 1100px;
-  background: #d4d2d2;
-}
-
 .slide img {
-  height: min(80vh, 700px);
+  display: block;
+  width: 100%;
+  height: clamp(300px, 70vw, 680px);
+  height: clamp(260px, min(70vw, 75svh), 680px);
   object-fit: contain;
   background: #f8f7f7;
-}
-
-@media (max-width: 600px) {
-  .slide img { height: 60vh; max-height: 460px; }
 }
 
 .slide-caption {
@@ -400,7 +417,8 @@ html {
   width: 100%;
   padding: 14px 16px 36px;
   background: linear-gradient(transparent, rgba(255, 254, 254, 0.65));
-  color: #fff;
+  color: #222;
+  font-weight: 600;
   font-size: 1.05rem;
 }
 
@@ -441,15 +459,13 @@ html {
   padding: 0;
   border: none;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.35);
   cursor: pointer;
 }
 
-.slide-dots button.active { background: #ffd700; }
-
-@media (max-width: 600px) {
-  .slide img { height: 300px; }
-  .slide-btn { width: 36px; height: 36px; font-size: 18px; }
+.slide-dots button.active {
+  background: #ffd700;
+  box-shadow: 0 0 0 1px #b8860b;
 }
 
 /* Lightbox Styles */
@@ -467,8 +483,9 @@ html {
 .lightbox-img {
   display: block;
   margin: auto;
-  max-width: 80%;
-  max-height: 80%;
+  max-width: 92%;
+  max-height: 75vh;
+  object-fit: contain;
 }
 
 .caption {
@@ -486,6 +503,7 @@ html {
   cursor: pointer;
 }
 
+/* Contact */
 .contact-info p {
   margin: 10px 0;
   font-size: 1rem;
@@ -495,6 +513,7 @@ html {
   color: var(--primary-color);
   text-decoration: none;
   transition: color 0.3s;
+  overflow-wrap: anywhere;
 }
 
 .contact-info a:hover {
@@ -503,14 +522,14 @@ html {
 
 .contact-section {
   background-color: var(--box-bg);
-  padding: 60px 20px 80px;
+  padding: clamp(40px, 6vw, 60px) clamp(14px, 4vw, 20px) clamp(50px, 7vw, 80px);
   text-align: center;
   color: var(--text-color);
   border-top: 3px solid var(--primary-color);
 }
 
 .contact-section h2 {
-  font-size: 2.2rem;
+  font-size: clamp(1.5rem, 3.5vw, 2.4rem);
   color: var(--primary-color);
   margin-bottom: 20px;
 }
@@ -519,7 +538,8 @@ html {
   margin-top: 25px;
   display: flex;
   justify-content: center;
-  gap: 25px;
+  flex-wrap: wrap;
+  gap: 18px;
 }
 
 .social-links a img {
@@ -545,7 +565,7 @@ html {
 .policies-container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 40px;
+  padding: clamp(20px, 5vw, 40px);
   background: #ffffffc9;
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
@@ -560,7 +580,7 @@ html {
 }
 
 .policies-container h2 {
-  font-size: 2.2rem;
+  font-size: clamp(1.5rem, 3.5vw, 2.4rem);
   color: #c94f7c;
   margin-bottom: 15px;
 }
@@ -573,7 +593,7 @@ html {
 
 /* Location section styles */
 .location-section {
-  max-width: 800px;
+  width: min(800px, 94%);
   margin: 40px auto;
   padding: 25px;
   background: linear-gradient(135deg, #fff5f8, #ffeaf1);
@@ -612,74 +632,123 @@ html {
     cursor: pointer;
 }
 
-@media (max-width: 600px) {
+/* =====================================================
+   RESPONSIVE
+===================================================== */
 
-    header {
-        padding: 10px 15px;
-        height: auto;
-    }
+/* Touch screens: bigger tap targets */
+@media (hover: none) {
+  .slide-btn { width: 44px; height: 44px; font-size: 20px; }
+  .slide-dots { gap: 10px; }
+  .slide-dots button { width: 12px; height: 12px; }
+  .nav-links a { padding: 6px 2px; display: inline-block; }
+}
 
-    .logo img {
-        width: 90px;
-        height: auto;
-    }
+/* Tablets */
+@media (max-width: 1024px) {
+  .nav-links { gap: 14px; }
+  .nav-links a { font-size: 15px; }
+}
 
-    .navbar {
-        flex-wrap: wrap;
-        gap: 10px;
-    }
+/* Phones */
+@media (max-width: 700px) {
+  header {
+    padding: max(8px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 8px max(12px, env(safe-area-inset-left));
+    background: rgba(255, 255, 255, 0.92);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
 
-    .nav-links {
-        gap: 10px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
+  .navbar {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas: "logo book" "links links";
+    align-items: center;
+    row-gap: 6px;
+  }
 
-    .nav-links a {
-        font-size: 13px;
-    }
+  .logo { grid-area: logo; }
 
-    .hero {
-        min-height: 650px;
-        padding: 20px 15px;
-    }
+  .book-now {
+    grid-area: book;
+    justify-self: end;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
 
-    .hero-text {
-        width: 100%;
-        padding: 20px 10px;
-        text-align: center;
-    }
+  .nav-links {
+    grid-area: links;
+    margin: 0;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+  }
 
-    .hero h1 {
-        font-size: 32px;
-        line-height: 1.1;
-    }
+  .nav-links a { font-size: 14px; }
 
-    .book-now {
-        font-size: 15px;
-        padding: 12px 20px;
-    }
+  .hero { padding: calc(150px + env(safe-area-inset-top)) 16px 40px; }
+  .hero-text { padding: 20px 14px; }
 
-    html,
-    body {
-        width: 100%;
-        overflow-x: hidden;
-    }
+  section[id] { scroll-margin-top: calc(130px + env(safe-area-inset-top)); }
 
-    .services-section,
-    .gallery-section,
-    .contact-section,
-    .location-section,
-    .policies-container {
-        width: 100%;
-        padding-left: 15px;
-        padding-right: 15px;
-    }
+  .service-card { flex-basis: 100%; max-width: 420px; }
 
-    img {
-        max-width: 100%;
-        height: auto;
-    }
+  .lightbox { padding-top: 60px; }
+  .lightbox .close { top: max(12px, env(safe-area-inset-top)); right: 18px; }
+
+  .popup { left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); text-align: center; }
+}
+
+/* Big screens */
+@media (min-width: 1400px) {
+  .hero-text { padding: 44px 52px; }
+  .gallery-grid { gap: 28px; }
+  .contact-info p { font-size: 1.1rem; }
+}
+
+/* iPhone, Android and touch details */
+a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.slideshow { touch-action: pan-y pinch-zoom; }          /* swipe sideways, scroll up/down */
+.lightbox { -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+
+#bookingForm input,
+#bookingForm textarea,
+#bookingForm button {
+  -webkit-appearance: none;
+  appearance: none;
+  background-clip: padding-box;
+}
+#bookingForm input { background: #fff; color: #333; }
+#bookingForm input[type="datetime-local"] {
+  min-height: 44px;                                      /* iPhone squashes the date field otherwise */
+  text-align: left;
+  display: block;
+}
+#bookingForm button { min-height: 44px; }
+
+/* Very small phones (iPhone SE, 320-380 px) */
+@media (max-width: 380px) {
+  .hero h1 { font-size: 26px; }
+  .small-title { font-size: 12px; letter-spacing: 1.5px; }
+  .nav-links { gap: 2px 12px; }
+  .nav-links a { font-size: 13px; }
+  .book-now { padding: 9px 12px; font-size: 13px; }
+  .logo img { width: 56px; }
+  .section-title { margin-bottom: 28px; }
+  .modal-content { padding: 16px; }
+}
+
+/* Phones turned sideways */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero { padding-top: calc(110px + env(safe-area-inset-top)); padding-bottom: 30px; }
+  .slide img { height: min(70vw, 75vh); }
+  .modal-content { max-height: 94vh; }
+}
+
+/* Respect "reduce motion" */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .gallery-item, .policies-container, .slides { transition: none; }
 }
     </style>
 </head>
@@ -761,7 +830,6 @@ html {
                     <img src="144.jpg" alt="Floral Nail Design">
                     <div class="slide-caption">Floral Nail Design</div>
                 </div>
-                
 
                 <div class="slide">
                     <img src="motion_photo_5560509343877187506.jpg" alt="Gold Glitter Nails">
@@ -838,7 +906,6 @@ html {
         <p>&copy; 2026 Amora Beauty studio. All rights reserved.</p>
         <p>
             📍 <a class="map-link" href="https://maps.app.goo.gl/tNgsBVd5tdaTYW3N8" target="_blank" rel="noopener">Visit Us in Nsawam, GH</a>
-            
         </p>
     </section>
 
