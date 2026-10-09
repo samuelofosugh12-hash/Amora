@@ -599,3 +599,39 @@
     padding: 7px 8px;
   }
 }
+
+/* Position chatbot header over the "Your Beauty, Our Passion" area */
+#amoraChatWidget .chat-panel {
+  position: fixed;
+  overflow: hidden;
+}
+
+#amoraChatWidget .chat-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: rgba(129, 8, 44, 0.96);
+  border-bottom: 1px solid rgba(190, 120, 140, 0.2);
+}
+
+/* Keep the chatbot messages below the header */
+#amoraChatWidget #chatMessages {
+  padding-top: 65px;
+}
+
+/* Make the close button visible and easy to tap */
+#amoraChatWidget .chat-header button {
+  position: relative;
+  z-index: 11;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+}
