@@ -1,0 +1,601 @@
+/* ========================================
+   AMORA BEAUTY STUDIO
+   SMART BEAUTY CHATBOT
+======================================== */
+
+#amoraChatWidget {
+  --amora-rose: #b83268;
+  --amora-deep: #8f204d;
+  --amora-pink: #f8e7ef;
+  --amora-gold: #d8b574;
+  --amora-cream: #fffaf7;
+  --amora-text: #30232a;
+  --amora-muted: #887780;
+
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Floating button */
+
+#amoraChatWidget #chatToggle {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+  z-index: 9998;
+
+  width: 64px;
+  height: 64px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #fff;
+  background: linear-gradient(145deg, #cf5b89, #92234f);
+  cursor: pointer;
+
+  box-shadow:
+    0 9px 28px rgba(143, 32, 77, .30),
+    0 0 0 5px rgba(184, 50, 104, .08);
+
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+#amoraChatWidget #chatToggle svg {
+  width: 29px;
+  height: 29px;
+}
+
+#amoraChatWidget #chatToggle:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 13px 34px rgba(143, 32, 77, .38);
+}
+
+#amoraChatWidget #chatToggle:focus-visible,
+#amoraChatWidget button:focus-visible,
+#amoraChatWidget a:focus-visible,
+#amoraChatWidget input:focus-visible {
+  outline: 3px solid var(--amora-gold);
+  outline-offset: 3px;
+}
+
+#amoraChatWidget .amora-notification {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+
+  width: 12px;
+  height: 12px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #60bd83;
+}
+
+/* Main panel */
+
+#amoraChatWidget .chat-panel {
+  position: fixed;
+  right: 25px;
+  bottom: 105px;
+  z-index: 9999;
+
+  display: flex;
+  flex-direction: column;
+
+  width: 370px;
+  max-width: calc(100vw - 30px);
+  height: 570px;
+  max-height: calc(100dvh - 125px);
+
+  overflow: hidden;
+  border: 1px solid rgba(216, 181, 116, .4);
+  border-radius: 22px;
+
+  background: #fff;
+  box-shadow: 0 22px 65px rgba(47, 24, 35, .19);
+
+  transform-origin: bottom right;
+  animation: amoraPanelIn .25s ease;
+}
+
+#amoraChatWidget .chat-panel[hidden],
+#amoraChatWidget [hidden] {
+  display: none !important;
+}
+
+/* Header */
+
+#amoraChatWidget .chat-header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  padding: 17px;
+
+  color: #fff;
+  background: linear-gradient(120deg, #92234f, #bd4676, #ce7a9b);
+}
+
+#amoraChatWidget .chat-brand-icon {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255,255,255,.12);
+}
+
+#amoraChatWidget .chat-brand-icon svg {
+  width: 23px;
+  height: 23px;
+}
+
+#amoraChatWidget .chat-brand-text {
+  flex: 1;
+  min-width: 0;
+}
+
+#amoraChatWidget .chat-brand-text strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#amoraChatWidget .chat-brand-text span {
+  display: block;
+  margin-top: 6px;
+  color: rgba(255,255,255,.88);
+  font-size: 11px;
+}
+
+#amoraChatWidget .chat-status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 4px;
+  border-radius: 50%;
+  background: #9ee8ae;
+}
+
+#amoraChatWidget #chatClose {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 50%;
+
+  color: #fff;
+  background: rgba(255,255,255,.12);
+  font-size: 25px;
+  cursor: pointer;
+
+  transition: transform .2s ease, background .2s ease;
+}
+
+#amoraChatWidget #chatClose:hover {
+  transform: rotate(90deg);
+  background: rgba(255,255,255,.23);
+}
+
+/* Welcome section */
+
+#amoraChatWidget .chat-welcome {
+  flex-shrink: 0;
+  padding: 17px 17px 14px;
+  border-bottom: 1px solid #f3e8ed;
+  background: #fff;
+}
+
+#amoraChatWidget .chat-eyebrow {
+  color: var(--amora-rose);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+
+#amoraChatWidget .chat-welcome h3 {
+  margin: 7px 0 5px;
+  color: var(--amora-text);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+#amoraChatWidget .chat-welcome p {
+  margin: 0;
+  color: var(--amora-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* Message area */
+
+#amoraChatWidget .chat-messages {
+  flex: 1;
+  min-height: 80px;
+  overflow-y: auto;
+  padding: 15px;
+
+  background:
+    radial-gradient(circle at top right, rgba(216,181,116,.09), transparent 38%),
+    var(--amora-cream);
+
+  scrollbar-width: thin;
+  scrollbar-color: #dfb5c6 transparent;
+}
+
+#amoraChatWidget .chat-messages::-webkit-scrollbar {
+  width: 5px;
+}
+
+#amoraChatWidget .chat-messages::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #dfb5c6;
+}
+
+#amoraChatWidget .bot-message,
+#amoraChatWidget .user-message {
+  width: fit-content;
+  max-width: 88%;
+  margin: 0 0 12px;
+  padding: 11px 13px;
+
+  border-radius: 15px;
+  font-size: 12.5px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+
+  animation: amoraMessageIn .2s ease;
+}
+
+#amoraChatWidget .bot-message {
+  margin-right: auto;
+  border: 1px solid #f0e4e9;
+  border-bottom-left-radius: 4px;
+
+  color: var(--amora-text);
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(58,33,44,.035);
+}
+
+#amoraChatWidget .user-message {
+  margin-left: auto;
+  border-bottom-right-radius: 4px;
+
+  color: #fff;
+  background: linear-gradient(135deg, #c34c7b, #a82e60);
+}
+
+/* Clickable links in responses */
+
+#amoraChatWidget .bot-message a {
+  color: var(--amora-rose);
+  font-weight: 700;
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+}
+
+/* Suggestions */
+
+#amoraChatWidget .chat-suggestions {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 10px 12px;
+
+  border-top: 1px solid #f2e8ed;
+  background: #fff;
+}
+
+#amoraChatWidget .chat-suggestions button {
+  padding: 8px 10px;
+  border: 1px solid #e8c5d4;
+  border-radius: 20px;
+
+  color: var(--amora-deep);
+  background: #fff9fc;
+
+  font-family: inherit;
+  font-size: 10.5px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: color .2s ease, background .2s ease;
+}
+
+#amoraChatWidget .chat-suggestions button:hover {
+  color: #fff;
+  background: var(--amora-rose);
+}
+
+/* Typing animation */
+
+#amoraChatWidget .chat-typing {
+  flex-shrink: 0;
+  padding: 5px 15px 10px;
+  color: var(--amora-muted);
+  background: var(--amora-cream);
+  font-size: 11px;
+}
+
+#amoraChatWidget .chat-typing span {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 4px;
+  border-radius: 50%;
+  background: var(--amora-rose);
+  animation: amoraTyping .8s infinite alternate;
+}
+
+#amoraChatWidget .chat-typing span:nth-child(2) {
+  animation-delay: .2s;
+}
+
+#amoraChatWidget .chat-typing span:nth-child(3) {
+  animation-delay: .4s;
+}
+
+#amoraChatWidget .chat-typing small {
+  margin-left: 5px;
+}
+
+/* Input form */
+
+#amoraChatWidget #chatForm {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+
+  border-top: 1px solid #f0e6eb;
+  background: #fff;
+}
+
+#amoraChatWidget #chatInput {
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+  padding: 0 14px;
+
+  border: 1px solid #eadde3;
+  border-radius: 24px;
+  outline: none;
+
+  color: var(--amora-text);
+  background: #fffafd;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+#amoraChatWidget #chatInput:focus {
+  border-color: var(--amora-rose);
+  box-shadow: 0 0 0 3px rgba(195,76,123,.08);
+}
+
+#amoraChatWidget #chatForm button {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #fff;
+  background: linear-gradient(135deg, #c34c7b, #a82e60);
+  cursor: pointer;
+
+  transition: transform .2s ease;
+}
+
+#amoraChatWidget #chatForm button:hover {
+  transform: scale(1.06);
+}
+
+#amoraChatWidget #chatForm button svg {
+  width: 19px;
+  height: 19px;
+}
+
+/* WhatsApp footer */
+
+#amoraChatWidget #chatWhatsApp {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 12px 10px;
+  border-top: 1px solid #e4f1e7;
+
+  color: #247747;
+  background: #f2fbf4;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-decoration: none;
+
+  transition: background .2s ease;
+}
+
+#amoraChatWidget #chatWhatsApp svg {
+  width: 17px;
+  height: 17px;
+}
+
+#amoraChatWidget #chatWhatsApp span {
+  margin-left: auto;
+  padding-right: 8px;
+}
+
+#amoraChatWidget #chatWhatsApp:hover {
+  background: #e5f6e9;
+}
+
+/* Animations */
+
+@keyframes amoraPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes amoraMessageIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes amoraTyping {
+  from { opacity: .35; transform: translateY(0); }
+  to { opacity: 1; transform: translateY(-3px); }
+}
+
+/* ========================================
+   MOBILE CHATBOT — COMPACT FLOATING WINDOW
+======================================== */
+
+@media (max-width: 480px) {
+  #amoraChatWidget #chatToggle {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    width: 56px;
+    height: 56px;
+  }
+
+  #amoraChatWidget .chat-panel {
+    position: fixed;
+
+    /* Keep space around the chatbot */
+    right: 12px;
+    bottom: 84px;
+    left: auto;
+    top: auto;
+
+    /* Compact size on mobile */
+    width: min(360px, calc(100vw - 24px));
+    height: min(490px, calc(100dvh - 115px));
+
+    /* Never fill the entire screen */
+    max-width: calc(100vw - 24px);
+    max-height: calc(100dvh - 115px);
+    min-height: 300px;
+
+    border-radius: 20px;
+    overflow: hidden;
+
+    transform-origin: bottom right;
+  }
+
+  #amoraChatWidget .chat-header {
+    padding: 12px 14px;
+  }
+
+  #amoraChatWidget .chat-brand-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  #amoraChatWidget .chat-brand-text strong {
+    font-size: 13px;
+  }
+
+  #amoraChatWidget .chat-welcome {
+    padding: 10px 14px;
+  }
+
+  #amoraChatWidget .chat-welcome h3 {
+    font-size: 16px;
+  }
+
+  #amoraChatWidget .chat-welcome p {
+    font-size: 11px;
+  }
+
+  #amoraChatWidget .chat-messages {
+    min-height: 60px;
+    padding: 12px;
+  }
+
+  #amoraChatWidget .bot-message,
+  #amoraChatWidget .user-message {
+    font-size: 12px;
+    padding: 9px 11px;
+  }
+
+  #amoraChatWidget .chat-suggestions {
+    gap: 5px;
+    padding: 8px;
+  }
+
+  #amoraChatWidget .chat-suggestions button {
+    padding: 7px 9px;
+    font-size: 10px;
+  }
+
+  #amoraChatWidget #chatForm {
+    padding: 8px 10px;
+  }
+
+  #amoraChatWidget #chatInput {
+    height: 38px;
+    font-size: 12px;
+  }
+
+  #amoraChatWidget #chatForm button {
+    width: 38px;
+    height: 38px;
+  }
+
+  #amoraChatWidget #chatWhatsApp {
+    padding: 10px;
+    font-size: 11px;
+  }
+}
+
+/* Extra-small phones */
+
+@media (max-width: 360px) {
+  #amoraChatWidget .chat-panel {
+    right: 8px;
+    bottom: 76px;
+    width: calc(100vw - 16px);
+    max-width: calc(100vw - 16px);
+    height: min(440px, calc(100dvh - 100px));
+    max-height: calc(100dvh - 100px);
+  }
+
+  #amoraChatWidget .chat-welcome {
+    padding: 8px 12px;
+  }
+
+  #amoraChatWidget .chat-suggestions button {
+    font-size: 9px;
+    padding: 7px 8px;
+  }
+}
