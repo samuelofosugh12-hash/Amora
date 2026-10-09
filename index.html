@@ -282,6 +282,12 @@ header {
   background: #f9f9f9;
 }
 
+.services-section .section-title {
+  flex: 0 0 100%;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
 .service-card {
   background: white;
   border-radius: 10px;
@@ -745,10 +751,83 @@ a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation
   .modal-content { max-height: 94vh; }
 }
 
+/* =====================================================
+   HERO PICTURE ON PHONES
+   Shows more of the photo and moves the text box down so it
+   covers less of the face. Change 50% 30% to move the picture:
+   first number = left/right, second = up/down.
+===================================================== */
+@media (max-width: 700px) {
+  .hero {
+    background-position: 50% 30%;
+    min-height: 88vh;
+    min-height: 88svh;
+    align-items: flex-end;
+    padding-bottom: 32px;
+  }
+}
+
+/* =====================================================
+   HERO ANIMATION: glowing border, fade-in, button pulse
+===================================================== */
+@property --hero-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.hero-text {
+  position: relative;
+  isolation: isolate;
+  animation: heroFade 1s ease-out both, heroGlow 3.5s ease-in-out 1s infinite;
+}
+
+/* the moving gold-and-pink ring around the box */
+.hero-text::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  padding: 3px;
+  border-radius: 11px;
+  background: conic-gradient(from var(--hero-angle), #ffd700, #c94f7c, #ffffff, #ffd700);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: heroSpin 4s linear infinite;
+  pointer-events: none;
+}
+
+/* text slides up one line at a time */
+.hero-text > * { animation: heroRise 0.8s ease-out both; }
+.hero-text > :nth-child(1) { animation-delay: 0.25s; }
+.hero-text > :nth-child(2) { animation-delay: 0.45s; }
+.hero-text > :nth-child(3) { animation-delay: 0.65s; }
+
+/* gentle pulse on the button after it appears */
+.hero-text > .cta-btn {
+  animation: heroRise 0.8s ease-out 0.65s both, ctaPulse 2.4s ease-in-out 1.8s infinite;
+}
+
+@keyframes heroSpin { to { --hero-angle: 360deg; } }
+@keyframes heroFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes heroRise {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroGlow {
+  0%, 100% { box-shadow: 0 0 14px rgba(255, 215, 0, 0.25); }
+  50%      { box-shadow: 0 0 30px rgba(201, 79, 124, 0.45); }
+}
+@keyframes ctaPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(240, 198, 12, 0.55); }
+  50%      { box-shadow: 0 0 0 12px rgba(240, 198, 12, 0); }
+}
+
 /* Respect "reduce motion" */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .gallery-item, .policies-container, .slides { transition: none; }
+  .hero-text, .hero-text::before, .hero-text > *, .hero-text > .cta-btn { animation: none; }
 }
     </style>
 </head>
@@ -778,6 +857,7 @@ a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation
 
     <!-- Services -->
     <section class="services-section" id="services">
+        <h2 class="section-title">Our Services</h2>
         <div class="service-card">
             <img src="Basic-Manicure.jpg.webp" alt="Basic Nail Care">
             <h3>Basic Nail Care</h3>
