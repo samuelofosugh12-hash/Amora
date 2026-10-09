@@ -757,13 +757,19 @@ a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation
    covers less of the face. Change 50% 30% to move the picture:
    first number = left/right, second = up/down.
 ===================================================== */
+
+
 @media (max-width: 700px) {
   .hero {
     background-position: 50% 30%;
     min-height: 88vh;
     min-height: 88svh;
     align-items: flex-end;
-    padding-bottom: 32px;
+    padding-bottom: 100px;
+  }
+
+  .hero-text {
+    transform: translateY(-100px);
   }
 }
 
